@@ -1,2 +1,0 @@
-# Rick-and-Morty-App
- 
