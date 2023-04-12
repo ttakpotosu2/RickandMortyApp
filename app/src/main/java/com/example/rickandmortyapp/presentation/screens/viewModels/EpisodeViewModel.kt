@@ -22,7 +22,6 @@ class EpisodeViewModel @Inject constructor(
 
     init {
         savedStateHandle.get<String>("episodeId")?.let { episodesById(it) }
-
     }
 
     private fun episodesById(episodeId: String){

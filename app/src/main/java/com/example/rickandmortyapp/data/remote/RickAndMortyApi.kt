@@ -23,11 +23,14 @@ interface RickAndMortyApi {
     suspend fun getLocationById(@Path("locationId") locationId: String): LocationDto
 
     @GET("episode")
-    suspend fun getAllEpisodes(): PagedData<EpisodeDto>
+    suspend fun getAllEpisodes(@Query("page") page: String): PagedData<EpisodeDto>
 
     @GET("episode/{episodeId}")
     suspend fun getEpisodeById(@Path("episodeId") episodeId: String): EpisodeDto
 
     @GET("episode/{episode}")
     suspend fun getMultipleEpisodes(@Path("episode") episode: String): List<EpisodeDto>
+
+    @GET("character/{character}")
+    suspend fun getMultipleCharacters(@Path("character") character: String): List<CharacterDto>
 }

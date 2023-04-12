@@ -1,13 +1,26 @@
 package com.example.rickandmortyapp.domain.repository
 
-import com.example.rickandmortyapp.data.dtos.locations_dtos.LocationDto
-import com.example.rickandmortyapp.data.remote.RickAndMortyApi
+import com.example.rickandmortyapp.data.local.RickAndMortyAppResultsDatabase
+import com.example.rickandmortyapp.domain.model.CharacterResultsEntity
+import com.example.rickandmortyapp.domain.model.LocationResultEntity
 import javax.inject.Inject
 
+data class LocationAndCharacters(
+    val location: LocationResultEntity,
+    val characters: List<CharacterResultsEntity>
+)
+
 class LocationRepository @Inject constructor(
-    private val rickAndMortyApi: RickAndMortyApi
+    private val rickAndMortyAppResultsDatabase: RickAndMortyAppResultsDatabase
 ) {
-    suspend fun getLocation(locationId: String): LocationDto {
-        return rickAndMortyApi.getLocationById(locationId)
+    suspend fun getLocation(locationId: String): LocationAndCharacters {
+        val location = rickAndMortyAppResultsDatabase.locationsResultDao().getSingleLocation(locationId.toInt())
+        val characters = rickAndMortyAppResultsDatabase.charactersResultsDao()
+            .getCharacterFromLocationReturnCharacters(location.residents)
+
+        return LocationAndCharacters(
+            location = location,
+            characters = characters
+        )
     }
 }

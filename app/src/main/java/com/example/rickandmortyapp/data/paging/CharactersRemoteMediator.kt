@@ -7,21 +7,20 @@ import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.example.rickandmortyapp.data.remote.RickAndMortyApi
-import com.example.rickandmortyapp.data.local.CharacterResultsDatabase
 import com.example.rickandmortyapp.data.local.CharactersResultsRemoteKeys
-import com.example.rickandmortyapp.data.local.EpisodesResultsDatabase
+import com.example.rickandmortyapp.data.local.RickAndMortyAppResultsDatabase
 import com.example.rickandmortyapp.domain.model.CharacterResultsEntity
 import javax.inject.Inject
 
 @OptIn(ExperimentalPagingApi::class)
 class CharactersRemoteMediator @Inject constructor(
     private val rickAndMortyApi: RickAndMortyApi,
-    private val charactersResultsDatabase: CharacterResultsDatabase,
-    private val episodesResultsDatabase: EpisodesResultsDatabase // TODO: Take out later
-): RemoteMediator<Int, CharacterResultsEntity>() {
+    private val rickAndMortyAppResultsDatabase: RickAndMortyAppResultsDatabase // TODO: Take out later){}
+) : RemoteMediator<Int, CharacterResultsEntity>() {
 
-    private val charactersResultsDao = charactersResultsDatabase.charactersResultsDao()
-    private val charactersResultsRemoteKeysDao = charactersResultsDatabase.charactersRemoteKeysDao()
+    private val charactersResultsDao = rickAndMortyAppResultsDatabase.charactersResultsDao()
+    private val charactersResultsRemoteKeysDao =
+        rickAndMortyAppResultsDatabase.charactersRemoteKeysDao()
 
     override suspend fun load(
         loadType: LoadType,
@@ -52,14 +51,15 @@ class CharactersRemoteMediator @Inject constructor(
             }
 
             val response = rickAndMortyApi.getAllCharacters(currentPage.toString()) //TODO: Implement to other remoteMediators
-            val episodesIds = response.results.flatMap { it.episodes }.mapNotNull { Uri.parse(it).lastPathSegment }
+            val episodesIds = response.results.flatMap { it.episodes }
+                .mapNotNull { Uri.parse(it).lastPathSegment }
             val episodesResponse = rickAndMortyApi.getMultipleEpisodes(episodesIds.joinToString(separator = ","))
             val endOfPaginationReached = response.results.isEmpty()
 
             val prevPage = if (currentPage == 1) null else currentPage - 1
             val nextPage = if (endOfPaginationReached) null else currentPage + 1
 
-            charactersResultsDatabase.withTransaction {
+            rickAndMortyAppResultsDatabase.withTransaction {
                 if (loadType == LoadType.REFRESH) {
                     charactersResultsDao.deleteCharacters()
                     charactersResultsRemoteKeysDao.deleteCharactersRemoteKeys()
@@ -73,9 +73,10 @@ class CharactersRemoteMediator @Inject constructor(
                 }
                 charactersResultsRemoteKeysDao.addCharactersRemoteKeys(remoteKeys = keys)
                 charactersResultsDao.addCharacters(
-                    characters = response.results.map { it.toResultEntity() }
+                    characters = response.results.map { it.toCharacterEntity() }
                 )
-                episodesResultsDatabase.episodesResultsDao().addEpisodes(episodesResponse.map { it.toEpisodeEntity() })
+                rickAndMortyAppResultsDatabase.episodesResultsDao()
+                    .addEpisodes(episodesResponse.map { it.toEpisodeEntity() })
             }
             MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (e: Exception) {

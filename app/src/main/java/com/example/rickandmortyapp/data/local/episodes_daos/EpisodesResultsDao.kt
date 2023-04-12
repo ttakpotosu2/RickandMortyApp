@@ -5,6 +5,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.example.rickandmortyapp.data.dtos.episoes_dtos.EpisodeDto
 import com.example.rickandmortyapp.domain.model.EpisodesResultsEntity
 import com.example.rickandmortyapp.domain.model.LocationResultEntity
 
@@ -19,4 +20,7 @@ interface EpisodesResultsDao {
 
     @Query("DELETE FROM episodes_results_table")
     suspend fun deleteEpisodes()
+
+    @Query("SELECT * FROM episodes_results_table WHERE id = :episode")
+    suspend fun getSingleEpisode(episode: Int): EpisodesResultsEntity
 }

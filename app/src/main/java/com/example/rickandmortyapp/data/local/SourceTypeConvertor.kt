@@ -27,4 +27,14 @@ class SourceTypeConvertor {
     fun toOrigin(storeOrigin: String): Origin{
         return  Json.decodeFromString(storeOrigin)
     }
+
+    @TypeConverter
+    fun fromInt(source: String): List<Int>{
+        return Json.decodeFromString(source)
+    }
+
+    @TypeConverter
+    fun toInt(source: List<Int>): String{
+        return Json.encodeToString(source)
+    }
 }

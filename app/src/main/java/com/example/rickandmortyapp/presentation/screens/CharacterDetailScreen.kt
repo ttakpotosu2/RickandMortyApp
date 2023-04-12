@@ -114,7 +114,10 @@ fun CharacterDetailScreen(
                         crossAxisSpacing = 10.dp
                     ) {
                         detail.character.episodes.forEach {episode ->
-                            EpisodesItem(episodeNumber = episode, onItemClick = {openEpisodeDetailsScreen(episode)})
+                            EpisodesItem(
+                                episodeNumber = episode,
+                                onItemClick = {openEpisodeDetailsScreen(episode)}
+                            )
                         }
                     }
                     // origin_url

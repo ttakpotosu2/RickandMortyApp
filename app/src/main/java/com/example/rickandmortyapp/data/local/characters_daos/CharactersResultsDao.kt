@@ -21,4 +21,11 @@ interface CharactersResultsDao {
 
     @Query("SELECT * FROM characters_results_table WHERE id = :id ")
     suspend fun getCharacterById(id: Int): CharacterResultsEntity
+
+    //fxn take list of xters from epi_dto return xter_dto
+    @Query("SELECT * FROM characters_results_table WHERE id IN (:ids)")
+    suspend fun getCharacterFromEpisodeReturnCharacters (ids: List<Int>): List<CharacterResultsEntity>
+
+    @Query("SELECT * FROM characters_results_table WHERE id IN (:ids)")
+    suspend fun getCharacterFromLocationReturnCharacters (ids: List<Int>): List<CharacterResultsEntity>
 }

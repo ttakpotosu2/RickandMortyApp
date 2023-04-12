@@ -9,7 +9,7 @@ data class LocationResultEntity(
     val dimension: String,
     @PrimaryKey val id: Int,
     val name: String,
-//    val residents: List<String>,
+    val residents: List<Int>,// Should this be an Int?
     val type: String,
     val url: String
 )

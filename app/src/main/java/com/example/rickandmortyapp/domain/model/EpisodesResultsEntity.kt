@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName
 data class EpisodesResultsEntity(
     @SerializedName("air_date")
     val airDate: String,
-//    val characters: List<String>,
+    val characters: List<Int>,
     val created: String,
     val episode: String,
     @PrimaryKey val id: Int,

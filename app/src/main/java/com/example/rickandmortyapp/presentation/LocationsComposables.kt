@@ -16,6 +16,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.rickandmortyapp.domain.model.CharacterResultsEntity
 import com.example.rickandmortyapp.domain.model.LocationResultEntity
 
 @Composable
@@ -52,24 +53,24 @@ fun LocationCard(
     }
 }
 
-@Composable
-fun ResidentsItem(
-    resident: String,
-    onItemClick: () -> Unit
-) {
-    Box(modifier = Modifier
-        .border(
-            width = 1.dp,
-            color = Color.White,
-            shape = RoundedCornerShape(100.dp)
-        )
-        .padding(10.dp)
-        .clickable { onItemClick() }
-    ){
-        Text(
-            text = resident,
-            color = Color.White,
-            textAlign = TextAlign.Center
-        )
-    }
-}
+//@Composable
+//fun ResidentsItem(
+//    resident: CharacterResultsEntity,
+//    onItemClick: () -> Unit
+//) {
+//    Box(modifier = Modifier
+//        .border(
+//            width = 1.dp,
+//            color = Color.White,
+//            shape = RoundedCornerShape(100.dp)
+//        )
+//        .padding(10.dp)
+//        .clickable { onItemClick() }
+//    ){
+//        Text(
+//            text = resident,
+//            color = Color.White,
+//            textAlign = TextAlign.Center
+//        )
+//    }
+//}

@@ -6,7 +6,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.example.rickandmortyapp.data.local.CharacterResultsDatabase
-import com.example.rickandmortyapp.data.local.EpisodesResultsDatabase
+import com.example.rickandmortyapp.data.local.RickAndMortyAppResultsDatabase
 import com.example.rickandmortyapp.domain.model.CharacterResultsEntity
 import com.example.rickandmortyapp.data.paging.CharactersRemoteMediator
 import com.example.rickandmortyapp.data.remote.RickAndMortyApi
@@ -21,7 +21,7 @@ import javax.inject.Inject
 class CharactersViewModel @Inject constructor(
     rickAndMortyApi: RickAndMortyApi,
     private val characterDatabase: CharacterResultsDatabase,
-    private val episodesResultsDatabase: EpisodesResultsDatabase
+    private val rickAndMortyAppResultsDatabase: RickAndMortyAppResultsDatabase
 ): ViewModel() {
     private val pagingSourceFactory = { characterDatabase.charactersResultsDao().getCharacters() }
 
@@ -34,8 +34,7 @@ class CharactersViewModel @Inject constructor(
         ),
         remoteMediator = CharactersRemoteMediator(
             rickAndMortyApi = rickAndMortyApi,
-            charactersResultsDatabase = characterDatabase,
-            episodesResultsDatabase = episodesResultsDatabase
+            rickAndMortyAppResultsDatabase = rickAndMortyAppResultsDatabase
         ),
         pagingSourceFactory = pagingSourceFactory
     ).flow.flowOn(Dispatchers.IO)

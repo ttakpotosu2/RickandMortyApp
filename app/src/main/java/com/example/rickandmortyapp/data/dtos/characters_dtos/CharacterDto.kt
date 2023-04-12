@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class CharacterDto(
+data class CharacterDto( // link from EpisodeDto
     val created: String,
     @SerializedName("episode") val episodes: List<String>,
     val gender: String,
@@ -19,15 +19,15 @@ data class CharacterDto(
     val status: String,
     val type: String,
     @SerializedName("url") val charactersUrl: String
-){
-    fun toResultEntity(): CharacterResultsEntity {
+) {
+    fun toCharacterEntity(): CharacterResultsEntity {
         return CharacterResultsEntity(
-           episodes = episodes.mapNotNull { Uri.parse(it).lastPathSegment },
-           gender =  gender,
-           id =  id,
-           image = image,
-           charactersName = charactersName,
-           charactersUrl = charactersUrl,
+            episodes = episodes.mapNotNull { Uri.parse(it).lastPathSegment },
+            gender = gender,
+            id = id,
+            image = image,
+            charactersName = charactersName,
+            charactersUrl = charactersUrl,
             status = status,
             origin = origin,
             species = species
