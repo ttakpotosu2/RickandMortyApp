@@ -120,7 +120,6 @@ fun CharacterDetailScreen(
                             )
                         }
                     }
-                    // origin_url
                 }
             }
             is CharacterState.Error -> {

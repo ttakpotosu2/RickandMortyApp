@@ -17,20 +17,20 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
 import com.example.rickandmortyapp.R
 import com.example.rickandmortyapp.domain.model.CharacterResultsEntity
+import com.example.rickandmortyapp.presentation.navigation.Screen
 import com.example.rickandmortyapp.presentation.screens.states.LocationState
-import com.example.rickandmortyapp.presentation.screens.viewModels.CharactersViewModel
 import com.example.rickandmortyapp.presentation.screens.viewModels.LocationViewModel
 import com.google.accompanist.flowlayout.FlowRow
 
 @Composable
 fun LocationDetailScreen(
-//    navController: NavHostController,
+    navController: NavHostController,
     viewModel: LocationViewModel = hiltViewModel(),
 ) {
-
     val detail = viewModel.location.value
     val scroll = rememberScrollState()
     
@@ -79,15 +79,16 @@ fun LocationDetailScreen(
                         )
                     )
                     FlowRow(
-                        mainAxisSpacing = 10.dp,
-                        crossAxisSpacing = 10.dp
+                        mainAxisSpacing = 6.dp,
+                        crossAxisSpacing = 6.dp
                     ) {
                         detail.location.characters
-                            .forEach {resident ->
-                                LocationResidentsItem(
-                                resident = resident
-                            ) {}
+                            .forEach { resident -> LocationResidentsItem(resident = resident) {
+                                navController.navigate(
+                                    Screen.CharacterDetailScreen.route + "/${resident.id}"
+                                )
                             }
+                        }
                     }
                 }
             }
@@ -111,11 +112,11 @@ fun LocationResidentsItem(
         model = resident.image
     )
 
-    Box(modifier = Modifier
+    Column(modifier = Modifier
         .border(
             width = 1.dp,
             color = Color.White,
-            shape = RoundedCornerShape(100.dp)
+            shape = RoundedCornerShape(12.dp)
         )
         .padding(10.dp)
         .clickable { onItemClick() }

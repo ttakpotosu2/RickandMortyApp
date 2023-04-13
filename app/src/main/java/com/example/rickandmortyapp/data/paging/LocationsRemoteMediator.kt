@@ -6,7 +6,7 @@ import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.example.rickandmortyapp.data.local.LocationResultsRemoteKeys
-import com.example.rickandmortyapp.data.local.LocationsResultsDatabase
+import com.example.rickandmortyapp.data.local.RickAndMortyAppResultsDatabase
 import com.example.rickandmortyapp.domain.model.LocationResultEntity
 import com.example.rickandmortyapp.data.remote.RickAndMortyApi
 import javax.inject.Inject
@@ -14,11 +14,11 @@ import javax.inject.Inject
 @OptIn(ExperimentalPagingApi::class)
 class LocationsRemoteMediator @Inject constructor(
     private val rickAndMortyApi: RickAndMortyApi,
-    private val locationsResultsDatabase: LocationsResultsDatabase
+    private val rickAndMortyAppResultsDatabase: RickAndMortyAppResultsDatabase
 ): RemoteMediator<Int, LocationResultEntity>() {
 
-    private val locationResultsDao = locationsResultsDatabase.locationsResultDao()
-    private val locationResultsRemoteKeysDao = locationsResultsDatabase.locationsResultsRemoteKeysDao()
+    private val locationResultsDao = rickAndMortyAppResultsDatabase.locationsResultDao()
+    private val locationResultsRemoteKeysDao = rickAndMortyAppResultsDatabase.locationsResultsRemoteKeysDao()
 
     override suspend fun load(
         loadType: LoadType,
@@ -54,7 +54,7 @@ class LocationsRemoteMediator @Inject constructor(
             val prevPage = if (currentPage == 1) null else currentPage - 1
             val nextPage = if (endOfPaginationReached) null else currentPage + 1
 
-            locationsResultsDatabase.withTransaction {
+            rickAndMortyAppResultsDatabase.withTransaction {
                 if (loadType == LoadType.REFRESH){
                     locationResultsDao.deleteLocations()
                     locationResultsRemoteKeysDao.deleteLocationsRemoteKeys()

@@ -22,7 +22,8 @@ import com.example.rickandmortyapp.domain.model.LocationResultEntity
         CharacterResultsEntity::class,
         CharactersResultsRemoteKeys::class
     ],
-    version = 1
+    version = 1,
+    exportSchema = false
 )
 @TypeConverters(SourceTypeConvertor::class)
 abstract class RickAndMortyAppResultsDatabase : RoomDatabase() {

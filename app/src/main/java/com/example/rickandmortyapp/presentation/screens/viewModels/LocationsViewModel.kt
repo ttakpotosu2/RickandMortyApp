@@ -5,7 +5,7 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.example.rickandmortyapp.data.local.LocationsResultsDatabase
+import com.example.rickandmortyapp.data.local.RickAndMortyAppResultsDatabase
 import com.example.rickandmortyapp.domain.model.LocationResultEntity
 import com.example.rickandmortyapp.data.paging.LocationsRemoteMediator
 import com.example.rickandmortyapp.data.remote.RickAndMortyApi
@@ -17,10 +17,10 @@ import javax.inject.Inject
 @HiltViewModel
 class LocationsViewModel @Inject constructor(
     rickAndMortyApi: RickAndMortyApi,
-    private val locationsResultsDatabase: LocationsResultsDatabase
+    private val rickAndMortyAppResultsDatabase: RickAndMortyAppResultsDatabase
 ): ViewModel(){
     private val pagingSourceFactory = {
-        locationsResultsDatabase.locationsResultDao().getLocations()
+        rickAndMortyAppResultsDatabase.locationsResultDao().getLocations()
     }
 
     val getAllLocations: Flow<PagingData<LocationResultEntity>> = Pager(
@@ -29,7 +29,7 @@ class LocationsViewModel @Inject constructor(
         ),
         remoteMediator = LocationsRemoteMediator(
             rickAndMortyApi = rickAndMortyApi,
-            locationsResultsDatabase = locationsResultsDatabase
+            rickAndMortyAppResultsDatabase = rickAndMortyAppResultsDatabase
         ),
         pagingSourceFactory = pagingSourceFactory
     ).flow
