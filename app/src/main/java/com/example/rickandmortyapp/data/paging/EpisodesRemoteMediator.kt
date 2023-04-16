@@ -51,12 +51,10 @@ class EpisodesRemoteMediator @Inject constructor(
             }
             val response = rickAndMortyApi.getAllEpisodes(currentPage.toString())
             val characterIds = response.results.map { it.characters }
-                .mapNotNull { Uri.parse(it.toString()).lastPathSegment }// TODO: Watch this place carefully
+                .mapNotNull { Uri.parse(it.toString()).lastPathSegment }
             val charactersResponse =
                 rickAndMortyApi.getMultipleCharacters(characterIds.joinToString(separator = ","))
-
             val endOfPaginationReached = response.results.isEmpty()
-
 
             val prevPage = if (currentPage == 1) null else currentPage - 1
             val nextPage = if (endOfPaginationReached) null else currentPage + 1

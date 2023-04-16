@@ -21,7 +21,7 @@ data class LocationDto(
             dimension,
             id,
             locationName,
-            residents.mapNotNull { Uri.parse(it).lastPathSegment?.toInt() },
+            residents.mapNotNull { Uri.parse(it).lastPathSegment },
             type,
             locationUrl
         )

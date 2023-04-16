@@ -24,10 +24,9 @@ class LocationViewModel @Inject constructor(
         savedStateHandle.get<String>("locationId")?.let { locationById(it) }
     }
 
-
     private fun locationById(locationId: String) {
         viewModelScope.launch {
-            val result = repository.getLocation(locationId)
+            val result = repository.getLocation(locationId.toInt())
             _location.value = LocationState.Success(result)
         }
     }

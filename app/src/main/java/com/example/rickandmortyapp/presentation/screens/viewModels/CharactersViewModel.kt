@@ -19,9 +19,11 @@ import javax.inject.Inject
 @HiltViewModel
 class CharactersViewModel @Inject constructor(
     rickAndMortyApi: RickAndMortyApi,
-    rickAndMortyAppResultsDatabase: RickAndMortyAppResultsDatabase
+    private val rickAndMortyAppResultsDatabase: RickAndMortyAppResultsDatabase
 ): ViewModel() {
-    private val pagingSourceFactory = { rickAndMortyAppResultsDatabase.charactersResultsDao().getCharacters() }
+    private val pagingSourceFactory = {
+        rickAndMortyAppResultsDatabase.charactersResultsDao().getCharacters()
+    }
 
     val getAllCharacters: Flow<PagingData<CharacterResultsEntity>> = Pager(
         config = PagingConfig(

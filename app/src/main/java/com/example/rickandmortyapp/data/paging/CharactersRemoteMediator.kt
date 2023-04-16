@@ -15,12 +15,11 @@ import javax.inject.Inject
 @OptIn(ExperimentalPagingApi::class)
 class CharactersRemoteMediator @Inject constructor(
     private val rickAndMortyApi: RickAndMortyApi,
-    private val rickAndMortyAppResultsDatabase: RickAndMortyAppResultsDatabase // TODO: Take out later){}
+    private val rickAndMortyAppResultsDatabase: RickAndMortyAppResultsDatabase
 ) : RemoteMediator<Int, CharacterResultsEntity>() {
 
     private val charactersResultsDao = rickAndMortyAppResultsDatabase.charactersResultsDao()
-    private val charactersResultsRemoteKeysDao =
-        rickAndMortyAppResultsDatabase.charactersRemoteKeysDao()
+    private val charactersResultsRemoteKeysDao = rickAndMortyAppResultsDatabase.charactersRemoteKeysDao()
 
     override suspend fun load(
         loadType: LoadType,

@@ -14,7 +14,7 @@ interface CharactersResultsDao {
     fun getCharacters(): PagingSource<Int, CharacterResultsEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun addCharacters(characters: List<CharacterResultsEntity>)
+    suspend fun addCharacters(characters: List<CharacterResultsEntity>) // this adds xters to table
 
     @Query("DELETE FROM characters_results_table")
     suspend fun deleteCharacters()
@@ -22,7 +22,6 @@ interface CharactersResultsDao {
     @Query("SELECT * FROM characters_results_table WHERE id = :id ")
     suspend fun getCharacterById(id: Int): CharacterResultsEntity
 
-    //fxn take list of xters from epi_dto return xter_dto
     @Query("SELECT * FROM characters_results_table WHERE id IN (:ids)")
     suspend fun getCharacterFromEpisodeReturnCharacters (ids: List<Int>): List<CharacterResultsEntity>
 

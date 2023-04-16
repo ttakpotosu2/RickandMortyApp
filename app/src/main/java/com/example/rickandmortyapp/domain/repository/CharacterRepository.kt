@@ -1,12 +1,10 @@
 package com.example.rickandmortyapp.domain.repository
 
 import com.example.rickandmortyapp.data.local.RickAndMortyAppResultsDatabase
-import com.example.rickandmortyapp.data.remote.RickAndMortyApi
 import com.example.rickandmortyapp.domain.model.CharacterResultsEntity
 import javax.inject.Inject
 
 class CharacterRepository @Inject constructor(
-    private val rickAndMortyApi: RickAndMortyApi,
     private val rickAndMortyAppResultsDatabase: RickAndMortyAppResultsDatabase
 )  {
 

@@ -1,5 +1,6 @@
 package com.example.rickandmortyapp.data.paging
 
+import android.net.Uri
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
@@ -48,7 +49,11 @@ class LocationsRemoteMediator @Inject constructor(
                 }
             }
 
-            val response = rickAndMortyApi.getAllLocations()
+            val response = rickAndMortyApi.getAllLocations(currentPage.toString())
+            val residentsIds = response.results.flatMap { it.residents }
+                .mapNotNull { Uri.parse(it.toString()).lastPathSegment }
+            val residentsResponse =
+                rickAndMortyApi.getMultipleCharacters(residentsIds.joinToString(separator = ","))
             val endOfPaginationReached = response.results.isEmpty()
 
             val prevPage = if (currentPage == 1) null else currentPage - 1
@@ -72,6 +77,8 @@ class LocationsRemoteMediator @Inject constructor(
                         it.toLocationEntity()
                     }
                 )
+                rickAndMortyAppResultsDatabase.charactersResultsDao()
+                    .addCharacters(residentsResponse.map { it.toCharacterEntity() })
             }
             MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (e: Exception){

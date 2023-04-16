@@ -34,9 +34,7 @@ object AppModule {
     @Provides
     @Singleton
     fun getLoggingInterceptor(): HttpLoggingInterceptor {
-        return HttpLoggingInterceptor().apply {
-            level = HttpLoggingInterceptor.Level.BODY
-        }
+        return HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }
     }
 
     @Provides
@@ -58,7 +56,6 @@ object AppModule {
         gson: Gson,
         client: OkHttpClient
     ): Retrofit {
-
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create(gson))
@@ -70,7 +67,5 @@ object AppModule {
     @Singleton
     fun getApiClient(
         retrofit: Retrofit
-    ): RickAndMortyApi {
-        return retrofit.create(RickAndMortyApi::class.java)
-    }
+    ): RickAndMortyApi { return retrofit.create(RickAndMortyApi::class.java) }
 }

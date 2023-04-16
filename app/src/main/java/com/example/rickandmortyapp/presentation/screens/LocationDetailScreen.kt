@@ -20,6 +20,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
 import com.example.rickandmortyapp.R
+import com.example.rickandmortyapp.data.dtos.characters_dtos.CharacterDto
 import com.example.rickandmortyapp.domain.model.CharacterResultsEntity
 import com.example.rickandmortyapp.presentation.navigation.Screen
 import com.example.rickandmortyapp.presentation.screens.states.LocationState
@@ -104,12 +105,12 @@ fun LocationDetailScreen(
 
 @Composable
 fun LocationResidentsItem(
-    resident: CharacterResultsEntity,
+    resident: CharacterResultsEntity?,
     onItemClick: () -> Unit
 ) {
 
     val imagePainter = rememberAsyncImagePainter(
-        model = resident.image
+        model = resident?.image
     )
 
     Column(modifier = Modifier
@@ -128,10 +129,12 @@ fun LocationResidentsItem(
                 .size(100.dp)
                 .clip(RoundedCornerShape(6.dp))
         )
-        Text(
-            text = resident.charactersName,
-            color = Color.White,
-            textAlign = TextAlign.Center
-        )
+        resident?.charactersName?.let {
+            Text(
+                text = it,
+                color = Color.White,
+                textAlign = TextAlign.Center
+            )
+        }
     }
 }

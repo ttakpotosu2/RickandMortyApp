@@ -110,9 +110,9 @@ fun EpisodeDetailResidentsItem(
                 .clip(RoundedCornerShape(6.dp))
         )
         Text(
-            text = resident.charactersName,
-            color = Color.White,
-            textAlign = TextAlign.Center
-        )
+                text = resident.charactersName,
+                color = Color.White,
+                textAlign = TextAlign.Center
+            )
     }
 }

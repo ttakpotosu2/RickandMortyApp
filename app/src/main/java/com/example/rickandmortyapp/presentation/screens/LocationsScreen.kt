@@ -57,7 +57,7 @@ fun LocationScreen(
                         location = location,
                         onItemClick = {navController.navigate(
                             Screen.LocationDetailScreen.route + "/${location.id}"
-                        )
+                            )
                         }
                     )
                 }

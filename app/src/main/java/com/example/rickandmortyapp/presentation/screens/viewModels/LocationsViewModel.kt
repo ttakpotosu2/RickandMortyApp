@@ -10,7 +10,9 @@ import com.example.rickandmortyapp.domain.model.LocationResultEntity
 import com.example.rickandmortyapp.data.paging.LocationsRemoteMediator
 import com.example.rickandmortyapp.data.remote.RickAndMortyApi
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 @OptIn(ExperimentalPagingApi::class)
@@ -32,5 +34,5 @@ class LocationsViewModel @Inject constructor(
             rickAndMortyAppResultsDatabase = rickAndMortyAppResultsDatabase
         ),
         pagingSourceFactory = pagingSourceFactory
-    ).flow
+    ).flow.flowOn(Dispatchers.IO)
 }
