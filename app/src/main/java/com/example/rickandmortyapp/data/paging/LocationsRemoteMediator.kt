@@ -48,16 +48,20 @@ class LocationsRemoteMediator @Inject constructor(
                     nextPage
                 }
             }
-
             val response = rickAndMortyApi.getAllLocations(currentPage.toString())
-            val residentsIds = response.results.flatMap { it.residents }
-                .mapNotNull { Uri.parse(it.toString()).lastPathSegment }
-            val residentsResponse =
-                rickAndMortyApi.getMultipleCharacters(residentsIds.joinToString(separator = ","))
+            // complete list of xters from api
+            val allCharacters = rickAndMortyApi.getAllCharacters(currentPage.toString())
+
+            val residentsIds = response.results.flatMap { it.residents }.mapNotNull { Uri.parse(it).lastPathSegment }
+            val residentsResponse = rickAndMortyApi.getMultipleCharacters(residentsIds.joinToString(separator = ","))
+
             val endOfPaginationReached = response.results.isEmpty()
 
             val prevPage = if (currentPage == 1) null else currentPage - 1
             val nextPage = if (endOfPaginationReached) null else currentPage + 1
+
+            // xter dto list from api minus list used in database
+            val remainingCharacters = allCharacters.results - residentsResponse
 
             rickAndMortyAppResultsDatabase.withTransaction {
                 if (loadType == LoadType.REFRESH){
@@ -79,6 +83,8 @@ class LocationsRemoteMediator @Inject constructor(
                 )
                 rickAndMortyAppResultsDatabase.charactersResultsDao()
                     .addCharacters(residentsResponse.map { it.toCharacterEntity() })
+                rickAndMortyAppResultsDatabase.charactersResultsDao()
+                    .updateCharacters(remainingCharacters.map{ it.toCharacterEntity() })
             }
             MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (e: Exception){

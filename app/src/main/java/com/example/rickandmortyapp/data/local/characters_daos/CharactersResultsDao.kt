@@ -1,10 +1,7 @@
 package com.example.rickandmortyapp.data.local.characters_daos
 
 import androidx.paging.PagingSource
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.example.rickandmortyapp.domain.model.CharacterResultsEntity
 
 @Dao
@@ -14,7 +11,11 @@ interface CharactersResultsDao {
     fun getCharacters(): PagingSource<Int, CharacterResultsEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun addCharacters(characters: List<CharacterResultsEntity>) // this adds xters to table
+    suspend fun addCharacters(characters: List<CharacterResultsEntity>)
+
+    // update table with new xters
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun updateCharacters(updateIds: List<CharacterResultsEntity>)
 
     @Query("DELETE FROM characters_results_table")
     suspend fun deleteCharacters()
@@ -26,5 +27,5 @@ interface CharactersResultsDao {
     suspend fun getCharacterFromEpisodeReturnCharacters (ids: List<Int>): List<CharacterResultsEntity>
 
     @Query("SELECT * FROM characters_results_table WHERE id IN (:ids)")
-    suspend fun getCharacterFromLocationReturnCharacters (ids: List<Int>): List<CharacterResultsEntity>
+    suspend fun getCharacterFromLocationReturnCharacters (ids: List<String>): List<CharacterResultsEntity>
 }
