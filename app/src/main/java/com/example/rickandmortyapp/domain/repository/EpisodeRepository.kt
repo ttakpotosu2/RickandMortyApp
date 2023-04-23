@@ -13,12 +13,14 @@ data class EpisodeAndCharacters(
 class EpisodeRepository @Inject constructor(
     private val rickAndMortyProjectDatabase: RickAndMortyAppResultsDatabase
 ) {
-
     suspend fun getEpisode(episodeId: String): EpisodeAndCharacters {
         val episode = rickAndMortyProjectDatabase.episodesResultsDao().getSingleEpisode(episodeId.toInt())
         val characters = rickAndMortyProjectDatabase.charactersResultsDao()
             .getCharacterFromEpisodeReturnCharacters(episode.characters)
 
-        return EpisodeAndCharacters(episode = episode, characters = characters)
+        return EpisodeAndCharacters(
+            episode = episode,
+            characters = characters
+        )
     }
 }

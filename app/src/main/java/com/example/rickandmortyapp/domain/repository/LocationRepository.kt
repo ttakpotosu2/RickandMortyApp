@@ -12,15 +12,11 @@ data class LocationAndCharacters(
 
 class LocationRepository @Inject constructor(
     private val rickAndMortyAppResultsDatabase: RickAndMortyAppResultsDatabase,
-//    private val charactersFromApi: RickAndMortyApi
 ) {
     suspend fun getLocation(locationId: Int): LocationAndCharacters {
-        val location = rickAndMortyAppResultsDatabase.locationsResultDao().getSingleLocation(
-            locationId
-        )
+        val location = rickAndMortyAppResultsDatabase.locationsResultDao().getSingleLocation(locationId)
         val characters = rickAndMortyAppResultsDatabase.charactersResultsDao()
             .getCharacterFromLocationReturnCharacters(location.residents)
-//        val charactersFromApi = charactersFromApi.getCharacterById(location.residents)
 
         return LocationAndCharacters(
             location = location,

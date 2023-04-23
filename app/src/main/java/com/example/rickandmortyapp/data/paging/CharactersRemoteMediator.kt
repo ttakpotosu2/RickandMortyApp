@@ -49,20 +49,25 @@ class CharactersRemoteMediator @Inject constructor(
                 }
             }
 
-            val response = rickAndMortyApi.getAllCharacters(currentPage.toString()) //TODO: Implement to other remoteMediators
-            val episodesIds = response.results.flatMap { it.episodes }
-                .mapNotNull { Uri.parse(it).lastPathSegment }
+            val response = rickAndMortyApi.getAllCharacters(currentPage.toString())
+
+            val allEpisodes = rickAndMortyApi.getAllEpisodes(currentPage.toString())
+
+            val episodesIds = response.results.flatMap { it.episodes }.mapNotNull { Uri.parse(it).lastPathSegment }
             val episodesResponse = rickAndMortyApi.getMultipleEpisodes(episodesIds.joinToString(separator = ","))
+
             val endOfPaginationReached = response.results.isEmpty()
 
             val prevPage = if (currentPage == 1) null else currentPage - 1
             val nextPage = if (endOfPaginationReached) null else currentPage + 1
 
+            val remainingEpisodes = allEpisodes.results - episodesResponse
+
             rickAndMortyAppResultsDatabase.withTransaction {
-                if (loadType == LoadType.REFRESH) {
-                    charactersResultsDao.deleteCharacters()
-                    charactersResultsRemoteKeysDao.deleteCharactersRemoteKeys()
-                }
+//                if (loadType == LoadType.REFRESH) {
+//                    charactersResultsDao.deleteCharacters()
+//                    charactersResultsRemoteKeysDao.deleteCharactersRemoteKeys()
+//                }
                 val keys = response.results.map { character ->
                     CharactersResultsRemoteKeys(
                         id = character.id,
@@ -74,8 +79,14 @@ class CharactersRemoteMediator @Inject constructor(
                 charactersResultsDao.addCharacters(
                     characters = response.results.map { it.toCharacterEntity() }
                 )
-                rickAndMortyAppResultsDatabase.episodesResultsDao()
+                rickAndMortyAppResultsDatabase
+                    .episodesResultsDao()
                     .addEpisodes(episodesResponse.map { it.toEpisodeEntity() })
+
+                rickAndMortyAppResultsDatabase
+                    .episodesResultsDao()
+                    .updateEpisodes(remainingEpisodes.map { it.toEpisodeEntity() }
+                )
             }
             MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (e: Exception) {

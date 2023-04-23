@@ -26,7 +26,7 @@ import com.google.accompanist.flowlayout.FlowRow
 @Composable
 fun CharacterDetailScreen(
     viewModel: CharacterDetailViewModel = hiltViewModel(),
-    openEpisodeDetailsScreen: (episodeId: String) -> Unit
+    openEpisodeDetailsScreen: (episodeId: Int) -> Unit
 ) {
     val detail = viewModel.character.value
     val scroll = rememberScrollState()
@@ -38,7 +38,7 @@ fun CharacterDetailScreen(
         when(detail){
             is CharacterState.Success -> {
                 val imagePainter = rememberAsyncImagePainter(
-                    model = detail.character.image
+                    model = detail.character.character.image
                 )
                 Column (
                     modifier = Modifier
@@ -48,7 +48,7 @@ fun CharacterDetailScreen(
                     verticalArrangement = Arrangement.spacedBy(16.dp),
                 ){
                     Text(
-                        text = detail.character.charactersName,
+                        text = detail.character.character.charactersName,
                         style = TextStyle(
                             fontSize = 40.sp,
                             color = Color.White,
@@ -65,11 +65,11 @@ fun CharacterDetailScreen(
                             .clip(RoundedCornerShape(12.dp))
                     )
                     Text(
-                        text = detail.character.status,
+                        text = detail.character.character.status,
                         modifier = Modifier
                             .clip(RoundedCornerShape(50.dp))
                             .background(
-                                if (detail.character.status == "Alive") Color.Green else Color.Red
+                                if (detail.character.character.status == "Alive") Color.Green else Color.Red
                             )
                             .padding(horizontal = 16.dp),
                         style = TextStyle(
@@ -79,7 +79,7 @@ fun CharacterDetailScreen(
                         )
                     )
                     Text(
-                        text = "Gender: ${detail.character.gender}",
+                        text = "Gender: ${detail.character.character.gender}",
                         style = TextStyle(
                             fontSize = 20.sp,
                             color = Color.White,
@@ -87,7 +87,7 @@ fun CharacterDetailScreen(
                         )
                     )
                     Text(
-                        text = "Species: ${detail.character.species}",
+                        text = "Species: ${detail.character.character.species}",
                         style = TextStyle(
                             fontSize = 20.sp,
                             color = Color.White,
@@ -95,7 +95,7 @@ fun CharacterDetailScreen(
                         )
                     )
                     Text(
-                        text = "Origin: ${detail.character.origin.name}",
+                        text = "Origin: ${detail.character.character.origin.name}",
                         style = TextStyle(
                             fontSize = 20.sp,
                             color = Color.White,
@@ -115,9 +115,8 @@ fun CharacterDetailScreen(
                     ) {
                         detail.character.episodes.forEach {episode ->
                             EpisodesItem(
-                                episodeNumber = episode,
-                                onItemClick = {openEpisodeDetailsScreen(episode)}
-                            )
+                                episodeNumber = episode.id
+                            ) { openEpisodeDetailsScreen(episode.id) }
                         }
                     }
                 }

@@ -20,7 +20,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
 import com.example.rickandmortyapp.R
-import com.example.rickandmortyapp.data.dtos.characters_dtos.CharacterDto
 import com.example.rickandmortyapp.domain.model.CharacterResultsEntity
 import com.example.rickandmortyapp.presentation.navigation.Screen
 import com.example.rickandmortyapp.presentation.screens.states.LocationState

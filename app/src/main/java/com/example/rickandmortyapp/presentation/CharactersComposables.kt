@@ -73,7 +73,7 @@ fun CharacterCard(
 
 @Composable
 fun EpisodesItem(
-    episodeNumber: String,
+    episodeNumber: Int,
     onItemClick: () -> Unit
 ) {
     Box(modifier = Modifier

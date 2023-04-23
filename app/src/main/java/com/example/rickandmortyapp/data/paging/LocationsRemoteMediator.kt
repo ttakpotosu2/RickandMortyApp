@@ -21,7 +21,7 @@ class LocationsRemoteMediator @Inject constructor(
     private val locationResultsDao = rickAndMortyAppResultsDatabase.locationsResultDao()
     private val locationResultsRemoteKeysDao = rickAndMortyAppResultsDatabase.locationsResultsRemoteKeysDao()
 
-    override suspend fun load(
+    override suspend fun load( 
         loadType: LoadType,
         state: PagingState<Int, LocationResultEntity>
     ): MediatorResult {
@@ -81,10 +81,12 @@ class LocationsRemoteMediator @Inject constructor(
                         it.toLocationEntity()
                     }
                 )
-                rickAndMortyAppResultsDatabase.charactersResultsDao()
-                    .addCharacters(residentsResponse.map { it.toCharacterEntity() })
-                rickAndMortyAppResultsDatabase.charactersResultsDao()
-                    .updateCharacters(remainingCharacters.map{ it.toCharacterEntity() })
+                rickAndMortyAppResultsDatabase.charactersResultsDao().addCharacters(
+                    residentsResponse.map { it.toCharacterEntity() }
+                )
+                rickAndMortyAppResultsDatabase.charactersResultsDao().updateCharacters(
+                    remainingCharacters.map{ it.toCharacterEntity() }
+                )
             }
             MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (e: Exception){
