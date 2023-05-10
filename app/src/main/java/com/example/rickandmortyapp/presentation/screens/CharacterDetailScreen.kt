@@ -57,7 +57,6 @@ fun CharacterDetailScreen(
                     IconButton(
                         onClick = { navHostController.navigateUp() },
                         modifier = Modifier
-                            .padding(16.dp)
                             .size(40.dp)
                     ) {
                         Icon(

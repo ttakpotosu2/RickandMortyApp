@@ -65,7 +65,6 @@ fun LocationDetailScreen(
                     IconButton(
                         onClick = { navController.navigateUp() },
                         modifier = Modifier
-                            .padding(16.dp)
                             .size(40.dp)
                     ) {
                         Icon(

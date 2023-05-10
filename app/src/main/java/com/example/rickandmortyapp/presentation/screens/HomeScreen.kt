@@ -23,7 +23,8 @@ fun HomeScreen(navController: NavHostController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFF121010)),
+            .background(Color(0xFF121010))
+            .padding(horizontal = 16.dp),
         verticalArrangement = Arrangement.SpaceEvenly,
         horizontalAlignment = Alignment.Start
     ) {
@@ -32,8 +33,7 @@ fun HomeScreen(navController: NavHostController) {
             style = TextStyle(
                 fontSize = 70.sp,
                 color = Color.White
-            ),
-            modifier = Modifier.padding(horizontal = 16.dp)
+            )
         )
         Column(
             modifier = Modifier.fillMaxWidth(),
@@ -63,7 +63,8 @@ fun CategoryCard(
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
-            .size(160.dp)
+            .fillMaxWidth()
+            .height(140.dp)
             .clip(RoundedCornerShape(12.dp))
             .background(Color(0xFF3D3C3C))
             .border(width = 1.dp, color = Color.White, shape = RoundedCornerShape(12.dp))
