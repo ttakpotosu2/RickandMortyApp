@@ -19,9 +19,7 @@ fun SetUpNavGraph(navController: NavHostController) {
             CharactersScreen(navController)
         }
         composable(route = Screen.CharacterDetailScreen.route + "/{characterId}") {
-            CharacterDetailScreen {
-                navController.navigate(Screen.EpisodeDetailScreen.route + "/${it}")
-            }
+            CharacterDetailScreen(navHostController = navController)
         }
         composable(route = Screen.LocationsScreen.route) {
             LocationScreen(navController)

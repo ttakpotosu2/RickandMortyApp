@@ -4,8 +4,13 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -39,7 +44,6 @@ fun EpisodeDetailScreen(
     ) {
         when (detail) {
             is EpisodeState.Success -> {
-
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
@@ -47,6 +51,17 @@ fun EpisodeDetailScreen(
                         .verticalScroll(scroll),
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
+                    IconButton(
+                        onClick = { navController.navigateUp() },
+                        modifier = Modifier
+                            .size(40.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowBack,
+                            contentDescription = null,
+                            tint = Color.White
+                        )
+                    }
                     Text(
                         text = detail.episode.episode.name, style = TextStyle(
                             fontSize = 40.sp, color = Color.White, fontWeight = FontWeight.Bold
@@ -77,11 +92,22 @@ fun EpisodeDetailScreen(
                     }
                 }
             }
+
             is EpisodeState.Error -> {
                 Text(text = "This is an Error Message")
             }
             is EpisodeState.Loading -> {
-                CircularProgressIndicator()
+                Column(
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    CircularProgressIndicator(
+                        modifier = Modifier
+                            .size(100.dp),
+                        color = Color.White
+                    )
+                }
             }
         }
     }
@@ -89,7 +115,8 @@ fun EpisodeDetailScreen(
 
 @Composable
 fun EpisodeDetailResidentsItem(
-    resident: CharacterResultsEntity, onItemClick: () -> Unit
+    resident: CharacterResultsEntity,
+    onItemClick: () -> Unit
 ) {
     val imagePainter = rememberAsyncImagePainter(
         model = resident.image
@@ -97,10 +124,14 @@ fun EpisodeDetailResidentsItem(
 
     Column(modifier = Modifier
         .border(
-            width = 1.dp, color = Color.White, shape = RoundedCornerShape(12.dp)
+            width = 1.dp,
+            color = Color.White,
+            shape = RoundedCornerShape(12.dp)
         )
         .padding(10.dp)
-        .clickable { onItemClick() }) {
+        .clickable { onItemClick() }
+        .width(100.dp)
+    ) {
         Image(
             painter = imagePainter,
             contentDescription = null,
@@ -110,9 +141,9 @@ fun EpisodeDetailResidentsItem(
                 .clip(RoundedCornerShape(6.dp))
         )
         Text(
-                text = resident.charactersName,
-                color = Color.White,
-                textAlign = TextAlign.Center
-            )
+            text = resident.charactersName,
+            color = Color.White,
+            textAlign = TextAlign.Center
+        )
     }
 }

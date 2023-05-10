@@ -3,7 +3,11 @@ package com.example.rickandmortyapp.presentation.screens
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,7 +37,18 @@ fun LocationScreen(
             .fillMaxSize()
             .background(Color(0xFF121010))
     ) {
-        Spacer(modifier = Modifier.height(16.dp))
+        IconButton(
+            onClick = { navController.navigateUp() },
+            modifier = Modifier
+                .padding(16.dp)
+                .size(40.dp)
+        ) {
+            Icon(
+                imageVector = Icons.Default.ArrowBack,
+                contentDescription = null,
+                tint = Color.White
+            )
+        }
         Text(
             text = stringResource(id = R.string.location_page_text_one),
             style = TextStyle(

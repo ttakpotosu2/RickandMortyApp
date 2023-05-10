@@ -2,7 +2,6 @@ package com.example.rickandmortyapp.presentation.screens
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -21,7 +20,6 @@ import com.example.rickandmortyapp.presentation.navigation.Screen
 
 @Composable
 fun HomeScreen(navController: NavHostController) {
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -29,14 +27,6 @@ fun HomeScreen(navController: NavHostController) {
         verticalArrangement = Arrangement.SpaceEvenly,
         horizontalAlignment = Alignment.Start
     ) {
-//        Image(
-//            painter = painterResource(id = R.drawable.ic_launcher_background),
-//            contentDescription = null,
-//            modifier = Modifier
-//
-//                .clip(CircleShape).size(100.dp)
-//                .padding(horizontal = 16.dp)
-//        )
         Text(
             text = stringResource(id = R.string.home_page_text_one),
             style = TextStyle(
@@ -45,43 +35,23 @@ fun HomeScreen(navController: NavHostController) {
             ),
             modifier = Modifier.padding(horizontal = 16.dp)
         )
-        Text(text = stringResource(id = R.string.home_page_text_two),
-            style = TextStyle(
-                fontSize = 16.sp,
-                color = Color.Gray
-            ),
-            modifier = Modifier.padding(horizontal = 16.dp)
-        )
-        LazyRow(
-            contentPadding = PaddingValues(16.dp),
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            item {
-                CategoryCard(
-                    text = "x",
-                    onClickAction = { navController.navigate(Screen.CharactersScreen.route)}
-                )
-            }
-            item {
-                CategoryCard(
-                    text = "l",
-                    onClickAction = { navController.navigate(Screen.LocationsScreen.route)}
-                )
-            }
-            item {
-                CategoryCard(
-                    text = "e",
-                    onClickAction = { navController.navigate(Screen.EpisodesScreen.route)}
-                )
-            }
+            CategoryCard(
+                text = "x",
+                onClickAction = { navController.navigate(Screen.CharactersScreen.route)}
+            )
+            CategoryCard(
+                text = "l",
+                onClickAction = { navController.navigate(Screen.LocationsScreen.route)}
+            )
+            CategoryCard(
+                text = "e",
+                onClickAction = { navController.navigate(Screen.EpisodesScreen.route)}
+            )
         }
-        Text(text = stringResource(id = R.string.home_page_text_three),
-            style = TextStyle(
-                fontSize = 16.sp,
-                color = Color.Gray
-            ),
-            modifier = Modifier.padding(horizontal = 16.dp)
-        )
     }
 }
 
@@ -90,7 +60,6 @@ fun CategoryCard(
     text: String,
     onClickAction: () -> Unit
 ) {
-
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
@@ -109,12 +78,3 @@ fun CategoryCard(
         )
     }
 }
-
-//@Preview(
-//    device = "spec:width=1440px,height=3120px,dpi=640", showBackground = true,
-//    showSystemUi = true
-//)
-//@Composable
-//fun Prev1() {
-//    HomeScreen()
-//}

@@ -4,8 +4,13 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -16,9 +21,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
 import com.example.rickandmortyapp.R
 import com.example.rickandmortyapp.presentation.EpisodesItem
+import com.example.rickandmortyapp.presentation.navigation.Screen
 import com.example.rickandmortyapp.presentation.screens.states.CharacterState
 import com.example.rickandmortyapp.presentation.screens.viewModels.CharacterDetailViewModel
 import com.google.accompanist.flowlayout.FlowRow
@@ -26,7 +33,7 @@ import com.google.accompanist.flowlayout.FlowRow
 @Composable
 fun CharacterDetailScreen(
     viewModel: CharacterDetailViewModel = hiltViewModel(),
-    openEpisodeDetailsScreen: (episodeId: Int) -> Unit
+    navHostController: NavHostController
 ) {
     val detail = viewModel.character.value
     val scroll = rememberScrollState()
@@ -47,6 +54,18 @@ fun CharacterDetailScreen(
                         .verticalScroll(scroll),
                     verticalArrangement = Arrangement.spacedBy(16.dp),
                 ){
+                    IconButton(
+                        onClick = { navHostController.navigateUp() },
+                        modifier = Modifier
+                            .padding(16.dp)
+                            .size(40.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowBack,
+                            contentDescription = null,
+                            tint = Color.White
+                        )
+                    }
                     Text(
                         text = detail.character.character.charactersName,
                         style = TextStyle(
@@ -107,7 +126,7 @@ fun CharacterDetailScreen(
                         style = TextStyle(
                             fontSize = 20.sp,
                             color = Color.White
-                        ),
+                        )
                     )
                     FlowRow(
                         mainAxisSpacing = 10.dp,
@@ -115,8 +134,13 @@ fun CharacterDetailScreen(
                     ) {
                         detail.character.episodes.forEach {episode ->
                             EpisodesItem(
-                                episodeNumber = episode.id
-                            ) { openEpisodeDetailsScreen(episode.id) }
+                                episodeNumber = episode.id,
+                                onItemClick = {
+                                    navHostController.navigate(
+                                        Screen.EpisodeDetailScreen.route + "/${episode.id}"
+                                    )
+                                }
+                            )
                         }
                     }
                 }
@@ -125,7 +149,17 @@ fun CharacterDetailScreen(
                 Text(text = "This is an Error Message")
             }
             is CharacterState.Loading -> {
-                CircularProgressIndicator()
+                Column(
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    CircularProgressIndicator(
+                        modifier = Modifier
+                            .size(100.dp),
+                        color = Color.White
+                    )
+                }
             }
         }
     }
