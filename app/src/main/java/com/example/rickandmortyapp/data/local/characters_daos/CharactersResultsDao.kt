@@ -13,7 +13,6 @@ interface CharactersResultsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addCharacters(characters: List<CharacterResultsEntity>)
 
-    // update table with new xters
     @Update(onConflict = OnConflictStrategy.REPLACE)
     suspend fun updateCharacters(updateIds: List<CharacterResultsEntity>)
 

@@ -51,7 +51,8 @@ fun CharacterCard(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.padding(6.dp)
         ) {
-            Image(painter = imagePainter,
+            Image(
+                painter = imagePainter,
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
@@ -84,7 +85,7 @@ fun EpisodesItem(
         )
         .padding(10.dp)
         .clickable { onItemClick() }
-    ){
+    ) {
         Text(
             text = "Episode $episodeNumber",
             color = Color.White,

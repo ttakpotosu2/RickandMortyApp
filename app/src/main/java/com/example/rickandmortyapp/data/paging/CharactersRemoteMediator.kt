@@ -61,7 +61,7 @@ class CharactersRemoteMediator @Inject constructor(
             val prevPage = if (currentPage == 1) null else currentPage - 1
             val nextPage = if (endOfPaginationReached) null else currentPage + 1
 
-            val remainingEpisodes = allEpisodes.results - episodesResponse
+            val remainingEpisodes = allEpisodes.results - episodesResponse.toSet()
 
             rickAndMortyAppResultsDatabase.withTransaction {
 //                if (loadType == LoadType.REFRESH) {

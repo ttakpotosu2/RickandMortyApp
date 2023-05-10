@@ -25,7 +25,7 @@ import com.example.rickandmortyapp.domain.model.LocationResultEntity
     version = 1,
     exportSchema = false
 )
-@TypeConverters(SourceTypeConvertor::class)
+@TypeConverters(SourceTypeConverter::class)
 abstract class RickAndMortyAppResultsDatabase : RoomDatabase() {
 
     //Episodes Entity
