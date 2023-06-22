@@ -5,3 +5,4 @@
 
 # Screen shots of flow of screens for the Rick and Morty App. 
 The Home Screen shows the three endpoints 1. Characters 2. Locations, and 3. Episodes.
+Also showing the Lists of the respective endpoints with a detail screen of each.
