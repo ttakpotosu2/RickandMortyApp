@@ -1,4 +1,7 @@
 # RickandMortyApp
-![WhatsApp Image 2023-04-07 at 20 05 32](https://user-images.githubusercontent.com/105734117/231887078-9913c924-9aa2-4402-8864-9b5f45c672d2.jpeg)
-![WhatsApp Image 2023-04-07 at 20 05 32](https://user-images.githubusercontent.com/105734117/231887184-c6790cee-75dd-4bf3-8a52-7d937ce0af6f.jpeg)
-![WhatsApp Image 2023-04-07 at 20 05 32](https://user-images.githubusercontent.com/105734117/231887328-191a6db8-c90b-43fd-9fa0-2726df129091.jpeg)
+![Screenshot_1](https://github.com/ttakpotosu2/RickandMortyApp/assets/105734117/c817cefb-8639-4b94-9b23-a4c10d12602c)
+![Screenshot_2](https://github.com/ttakpotosu2/RickandMortyApp/assets/105734117/57d8cae8-65ba-4883-b4f1-097356c4f3ea)
+![Screenshot_3](https://github.com/ttakpotosu2/RickandMortyApp/assets/105734117/aaeda06f-2c7f-4a78-9378-c4222ba7e211)
+
+# Screen shots of flow of screens for the Rick and Morty App. 
+The Home Screen shows the three endpoints 1. Characters 2. Locations, and 3. Episodes.
