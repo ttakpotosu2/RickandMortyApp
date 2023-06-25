@@ -3,6 +3,13 @@
 ![Screenshot_2](https://github.com/ttakpotosu2/RickandMortyApp/assets/105734117/57d8cae8-65ba-4883-b4f1-097356c4f3ea)
 ![Screenshot_3](https://github.com/ttakpotosu2/RickandMortyApp/assets/105734117/aaeda06f-2c7f-4a78-9378-c4222ba7e211)
 
+#Technology Stack
+1. Retrofit
+2. Room
+3. StarWars Api
+4. Hilt
+5. Jetpack Compose
+
 # Screen shots of flow of screens for the Rick and Morty App. 
 The Home Screen shows the three endpoints 1. Characters 2. Locations, and 3. Episodes.
 Also showing the Lists of the respective endpoints with a detail screen of each.
