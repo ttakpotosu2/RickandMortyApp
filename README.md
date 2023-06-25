@@ -3,9 +3,11 @@
 #Technology Stack
 1. Retrofit
 2. Room
-3. StarWars Api
-4. Hilt
-5. Jetpack Compose
+3. Coil
+4. Paging 3
+5. StarWars Api
+6. Hilt
+7. Jetpack Compose
 
 # Screen shots of flow of screens for the Rick and Morty App. 
 The Home Screen shows the three endpoints 1. Characters 2. Locations, and 3. Episodes.
