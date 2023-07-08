@@ -3,6 +3,7 @@ package com.example.rickandmortyapp.presentation.screens
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -21,8 +22,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.itemContentType
+import androidx.paging.compose.itemKey
 import androidx.paging.compose.items
 import com.example.rickandmortyapp.R
+import com.example.rickandmortyapp.domain.model.CharacterResultsEntity
 import com.example.rickandmortyapp.presentation.CharacterCard
 import com.example.rickandmortyapp.presentation.navigation.Screen
 import com.example.rickandmortyapp.presentation.screens.viewModels.CharactersViewModel
@@ -67,24 +71,25 @@ fun CharactersScreen(
                 .fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(16.dp),
             contentPadding = PaddingValues(vertical = 16.dp)
-        ){
-            items(charactersData){ character ->
-             //   Log.e("Data", data?.toString() ?: "Error")
-                if (character != null) {
-                    CharacterCard(
-                        details = character,
-                        onItemClick = {
-                            navController.navigate(
-                                Screen.CharacterDetailScreen.route + "/${character.id}"
-                            )
-                        }
-                    )
-                }
+        ) {
+            items(
+                count = charactersData.itemCount,
+                key = charactersData.itemKey(),
+                contentType = charactersData.itemContentType(
+            )
+    ) { index ->
+        val item = charactersData[index]
+        if (item != null) {
+            CharacterCard(
+                details = item,
+                onItemClick = { navController.navigate(Screen.CharacterDetailScreen.route + "/${item.id}") }
+            )
+        }
             }
             charactersData.apply {
-                when{
+                when {
                     loadState.refresh is LoadState.Loading -> {
-                        item{
+                        item {
                             Column(
                                 verticalArrangement = Arrangement.Center,
                                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -100,11 +105,13 @@ fun CharactersScreen(
                         }
                     }
                     loadState.append is LoadState.Loading -> {
-                        item { CircularProgressIndicator(
-                            modifier = Modifier
-                                .align(Alignment.CenterHorizontally),
-                            color = Color.White
-                        ) }
+                        item {
+                            CircularProgressIndicator(
+                                modifier = Modifier
+                                    .align(Alignment.CenterHorizontally),
+                                color = Color.White
+                            )
+                        }
                     }
                 }
             }

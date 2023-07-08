@@ -1,6 +1,5 @@
 package com.example.rickandmortyapp.presentation.screens.states
 
-import com.example.rickandmortyapp.data.dtos.episoes_dtos.EpisodeDto
 import com.example.rickandmortyapp.domain.repository.EpisodeAndCharacters
 
 sealed class EpisodeState {

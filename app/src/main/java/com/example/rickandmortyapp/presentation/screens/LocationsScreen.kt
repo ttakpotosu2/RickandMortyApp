@@ -1,7 +1,13 @@
 package com.example.rickandmortyapp.presentation.screens
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -16,17 +22,17 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
 import androidx.paging.compose.collectAsLazyPagingItems
-import androidx.paging.compose.items
+import androidx.paging.compose.itemContentType
+import androidx.paging.compose.itemKey
 import com.example.rickandmortyapp.R
 import com.example.rickandmortyapp.presentation.LocationCard
-import com.example.rickandmortyapp.presentation.navigation.Screen
 import com.example.rickandmortyapp.presentation.screens.viewModels.LocationsViewModel
 
 @Composable
 fun LocationScreen(
-    navController: NavHostController,
+    navigateUp: () -> Unit,
+    openLocationDetailScreen: (Int) -> Unit,
     locationsViewModel: LocationsViewModel = hiltViewModel()
 ) {
 
@@ -38,7 +44,7 @@ fun LocationScreen(
             .background(Color(0xFF121010))
     ) {
         IconButton(
-            onClick = { navController.navigateUp() },
+            onClick = { navigateUp() },
             modifier = Modifier
                 .padding(16.dp)
                 .size(40.dp)
@@ -65,14 +71,19 @@ fun LocationScreen(
                 .fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(16.dp),
             contentPadding = PaddingValues(vertical = 16.dp)
-        ){
-            items(location){location ->
-                if (location != null) {
+        ) {
+            items(
+                count = location.itemCount,
+                key = location.itemKey(),
+                contentType = location.itemContentType(
+                )
+            ) { index ->
+                val item = location[index]
+                if (item != null) {
                     LocationCard(
-                        location = location,
-                        onItemClick = {navController.navigate(
-                            Screen.LocationDetailScreen.route + "/${location.id}"
-                            )
+                        location = item,
+                        onItemClick = {
+                            openLocationDetailScreen(item.id)
                         }
                     )
                 }

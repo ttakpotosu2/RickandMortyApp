@@ -1,4 +1,4 @@
-package com.example.rickandmortyapp.data.dtos.episoes_dtos
+package com.example.rickandmortyapp.data.dtos.episodes_dtos
 
 
 import android.net.Uri

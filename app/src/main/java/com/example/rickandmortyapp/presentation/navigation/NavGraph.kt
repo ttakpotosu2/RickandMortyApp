@@ -22,13 +22,17 @@ fun SetUpNavGraph(navController: NavHostController) {
             CharacterDetailScreen(navHostController = navController)
         }
         composable(route = Screen.LocationsScreen.route) {
-            LocationScreen(navController)
+            LocationScreen(navigateUp = navController::navigateUp, openLocationDetailScreen = { id ->
+                navController.navigate(Screen.LocationDetailScreen.route + "/${id}")
+            })
         }
         composable(route = Screen.LocationDetailScreen.route + "/{locationId}") {
             LocationDetailScreen(navController) //from location detail screen to character detail screen
         }
         composable(route = Screen.EpisodesScreen.route) {
-            EpisodesScreen(navController)
+            EpisodesScreen(navigateUp = navController::navigateUp, openEpisodeDetailScreen = { id ->
+                navController.navigate(Screen.EpisodeDetailScreen.route + "/${id}")
+            })
         }
         composable(route = Screen.EpisodeDetailScreen.route + "/{episodeId}") {
             EpisodeDetailScreen(navController = navController) //from episode detail screen to character detail screen

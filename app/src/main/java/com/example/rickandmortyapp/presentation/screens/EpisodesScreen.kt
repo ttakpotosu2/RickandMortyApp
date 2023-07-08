@@ -1,7 +1,13 @@
 package com.example.rickandmortyapp.presentation.screens
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
@@ -18,18 +24,18 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
-import androidx.paging.compose.items
+import androidx.paging.compose.itemContentType
+import androidx.paging.compose.itemKey
 import com.example.rickandmortyapp.R
 import com.example.rickandmortyapp.presentation.EpisodeCard
-import com.example.rickandmortyapp.presentation.navigation.Screen
 import com.example.rickandmortyapp.presentation.screens.viewModels.EpisodesViewModel
 
 @Composable
 fun EpisodesScreen(
-    navHostController: NavHostController,
+    navigateUp: () -> Unit,
+    openEpisodeDetailScreen: (Int) -> Unit,
     episodesViewModel: EpisodesViewModel = hiltViewModel()
 ) {
     val episodes = episodesViewModel.getAllEpisodes.collectAsLazyPagingItems()
@@ -40,7 +46,7 @@ fun EpisodesScreen(
             .background(Color(0xFF121010))
     ) {
         IconButton(
-            onClick = { navHostController.navigateUp() },
+            onClick = { navigateUp() },
             modifier = Modifier
                 .padding(16.dp)
                 .size(40.dp)
@@ -67,19 +73,23 @@ fun EpisodesScreen(
                 .fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(16.dp),
             contentPadding = PaddingValues(vertical = 16.dp)
-        ){
-           items(episodes){ episode ->
-               if (episode != null) {
-                   EpisodeCard(
-                       episode = episode,
-                       onItemClick = { navHostController.navigate(
-                           Screen.EpisodeDetailScreen.route + "/${episode.id}"
-                       )}
-                   )
-               }
-           }
+        ) {
+            items(
+                count = episodes.itemCount,
+                key = episodes.itemKey(),
+                contentType = episodes.itemContentType(
+                )
+            ) { index ->
+                val item = episodes[index]
+                if (item != null) {
+                    EpisodeCard(
+                        episode = item,
+                        onItemClick = { openEpisodeDetailScreen(item.id) }
+                    )
+                }
+            }
             episodes.apply {
-                when{
+                when {
                     loadState.refresh is LoadState.Loading -> {
                         item {
                             Column(
@@ -97,12 +107,15 @@ fun EpisodesScreen(
 
                         }
                     }
+
                     loadState.append is LoadState.Loading -> {
-                        item { CircularProgressIndicator(
-                            modifier = Modifier
-                                .align(Alignment.CenterHorizontally),
-                            color = Color.White
-                        ) }
+                        item {
+                            CircularProgressIndicator(
+                                modifier = Modifier
+                                    .align(Alignment.CenterHorizontally),
+                                color = Color.White
+                            )
+                        }
                     }
                 }
             }

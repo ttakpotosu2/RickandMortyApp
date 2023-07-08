@@ -19,7 +19,8 @@ class CharactersRemoteMediator @Inject constructor(
 ) : RemoteMediator<Int, CharacterResultsEntity>() {
 
     private val charactersResultsDao = rickAndMortyAppResultsDatabase.charactersResultsDao()
-    private val charactersResultsRemoteKeysDao = rickAndMortyAppResultsDatabase.charactersRemoteKeysDao()
+    private val charactersResultsRemoteKeysDao =
+        rickAndMortyAppResultsDatabase.charactersRemoteKeysDao()
 
     override suspend fun load(
         loadType: LoadType,
@@ -31,6 +32,7 @@ class CharactersRemoteMediator @Inject constructor(
                     val remoteKeys = getRemoteKeyClosestToCurrentPosition(state)
                     remoteKeys?.next?.minus(1) ?: 1
                 }
+
                 LoadType.PREPEND -> {
                     val remoteKeys = getRemoteKeyForFirstItem(state)
                     val prevPage = remoteKeys?.prev
@@ -39,6 +41,7 @@ class CharactersRemoteMediator @Inject constructor(
                         )
                     prevPage
                 }
+
                 LoadType.APPEND -> {
                     val remoteKeys = getRemoteKeyForLastItem(state)
                     val nextPage = remoteKeys?.next
@@ -53,8 +56,10 @@ class CharactersRemoteMediator @Inject constructor(
 
             val allEpisodes = rickAndMortyApi.getAllEpisodes(currentPage.toString())
 
-            val episodesIds = response.results.flatMap { it.episodes }.mapNotNull { Uri.parse(it).lastPathSegment }
-            val episodesResponse = rickAndMortyApi.getMultipleEpisodes(episodesIds.joinToString(separator = ","))
+            val episodesIds = response.results.flatMap { it.episodes }
+                .mapNotNull { Uri.parse(it).lastPathSegment }
+            val episodesResponse =
+                rickAndMortyApi.getMultipleEpisodes(episodesIds.joinToString(separator = ","))
 
             val endOfPaginationReached = response.results.isEmpty()
 
@@ -86,7 +91,7 @@ class CharactersRemoteMediator @Inject constructor(
                 rickAndMortyAppResultsDatabase
                     .episodesResultsDao()
                     .updateEpisodes(remainingEpisodes.map { it.toEpisodeEntity() }
-                )
+                    )
             }
             MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (e: Exception) {

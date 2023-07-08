@@ -2,10 +2,7 @@ package com.example.rickandmortyapp.data.local.episodes_daos
 
 import androidx.paging.PagingSource
 import androidx.room.*
-import com.example.rickandmortyapp.data.dtos.episoes_dtos.EpisodeDto
-import com.example.rickandmortyapp.domain.model.CharacterResultsEntity
 import com.example.rickandmortyapp.domain.model.EpisodesResultsEntity
-import com.example.rickandmortyapp.domain.model.LocationResultEntity
 
 @Dao
 interface EpisodesResultsDao {
