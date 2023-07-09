@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -28,6 +29,7 @@ import androidx.paging.compose.itemKey
 import com.example.rickandmortyapp.R
 import com.example.rickandmortyapp.presentation.LocationCard
 import com.example.rickandmortyapp.presentation.screens.viewModels.LocationsViewModel
+import com.example.rickandmortyapp.presentation.spacing
 
 @Composable
 fun LocationScreen(
@@ -46,7 +48,7 @@ fun LocationScreen(
         IconButton(
             onClick = { navigateUp() },
             modifier = Modifier
-                .padding(16.dp)
+                .padding(MaterialTheme.spacing.medium)
                 .size(40.dp)
         ) {
             Icon(
@@ -62,15 +64,15 @@ fun LocationScreen(
                 color = Color.White
             ),
             modifier = Modifier
-                .padding(horizontal = 16.dp)
+                .padding(horizontal = MaterialTheme.spacing.medium)
         )
         LazyColumn(
             modifier = Modifier
-                .padding(horizontal = 16.dp)
+                .padding(horizontal = MaterialTheme.spacing.medium)
                 .weight(1f)
                 .fillMaxWidth(),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            contentPadding = PaddingValues(vertical = 16.dp)
+            verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.medium),
+            contentPadding = PaddingValues(vertical = MaterialTheme.spacing.medium)
         ) {
             items(
                 count = location.itemCount,

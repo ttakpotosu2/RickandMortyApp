@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -30,6 +31,7 @@ import com.example.rickandmortyapp.domain.model.CharacterResultsEntity
 import com.example.rickandmortyapp.presentation.CharacterCard
 import com.example.rickandmortyapp.presentation.navigation.Screen
 import com.example.rickandmortyapp.presentation.screens.viewModels.CharactersViewModel
+import com.example.rickandmortyapp.presentation.spacing
 
 @Composable
 fun CharactersScreen(
@@ -46,7 +48,7 @@ fun CharactersScreen(
         IconButton(
             onClick = { navController.navigateUp() },
             modifier = Modifier
-                .padding(16.dp)
+                .padding(MaterialTheme.spacing.medium)
                 .size(40.dp)
         ) {
             Icon(
@@ -62,15 +64,15 @@ fun CharactersScreen(
                 color = Color.White
             ),
             modifier = Modifier
-                .padding(horizontal = 16.dp)
+                .padding(horizontal = MaterialTheme.spacing.medium)
         )
         LazyColumn(
             modifier = Modifier
-                .padding(horizontal = 16.dp)
+                .padding(horizontal = MaterialTheme.spacing.medium)
                 .weight(1f)
                 .fillMaxWidth(),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            contentPadding = PaddingValues(vertical = 16.dp)
+            verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.medium),
+            contentPadding = PaddingValues(vertical = MaterialTheme.spacing.medium)
         ) {
             items(
                 count = charactersData.itemCount,
@@ -98,7 +100,7 @@ fun CharactersScreen(
                                 CircularProgressIndicator(
                                     modifier = Modifier
                                         .size(100.dp)
-                                        .padding(vertical = 200.dp),
+                                        .padding(vertical = MaterialTheme.spacing.extraLarge),
                                     color = Color.White
                                 )
                             }
