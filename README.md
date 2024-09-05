@@ -5,7 +5,7 @@
 2. Room
 3. Coil
 4. Paging 3
-5. StarWars Api
+5. Rick and Morty Api
 6. Hilt
 7. Jetpack Compose
 
